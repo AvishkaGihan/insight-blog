@@ -49,7 +49,7 @@ export default function Header() {
   };
 
   return (
-    <Navbar className="border-b-2">
+    <Navbar className="!px-28 py-4  shadow-md">
       <Link
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
