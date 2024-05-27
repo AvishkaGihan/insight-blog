@@ -4,7 +4,7 @@ import { Button } from "flowbite-react"; // Import Button component from Flowbit
 export default function CallToAction() {
   return (
     // Main container for the Call to Action section with styling
-    <div className="flex flex-col sm:flex-row sm:gap-16 p-8 px-16 border-2 border-white  justify-center items-center rounded-tl-3xl rounded-br-3xl text-center">
+    <div className="flex flex-col sm:flex-row sm:gap-16 p-8 px-16 border-2 border-white shadow-lg  justify-center items-center rounded-tl-3xl rounded-br-3xl text-center">
       {/* Text and button container */}
       <div className="flex-1 justify-center flex flex-col">
         <h2 className="text-xl text-gray-200 font-semibold">
