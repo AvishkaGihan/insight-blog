@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice";
 import { signOutSuccess } from "../redux/user/userSlice";
 import { useEffect, useState } from "react";
+import logoLight from "../assets/logo-light-mode.png";
+import logoDark from "../assets/logo-dark-mode.png";
 
 export default function Header() {
   const path = useLocation().pathname;
@@ -49,14 +51,21 @@ export default function Header() {
   };
 
   return (
-    <Navbar className="md:!px-8 sm:!px-2 py-4  shadow-md w-[100%]">
+    <Navbar className="md:!px-16 sm:!px-2 py-4  shadow-md w-[100%]">
       <Link
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-3 py-2 rounded-sm bg-gradient-to-r from-green-500 via-teal-500 to-blue-500 text-white">
-          insight.
-        </span>
+        <img
+          className={`h-10 ${theme === "dark" ? "visible" : "hidden"}`}
+          src={logoDark}
+          alt="logo"
+        />
+        <img
+          className={`h-10 ${theme === "light" ? "visible" : "hidden"}`}
+          src={logoLight}
+          alt="logo"
+        />
       </Link>
       <form onSubmit={handleSubmit}>
         <TextInput
@@ -102,9 +111,7 @@ export default function Header() {
           </Dropdown>
         ) : (
           <Link to="/sign-in">
-            <Button gradientDuoTone="purpleToBlue" outline>
-              Sign In
-            </Button>
+            <Button color="success">Sign In</Button>
           </Link>
         )}
         <Navbar.Toggle />

@@ -7,11 +7,17 @@ import {
   BsGithub,
   BsDribbble,
 } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import logoLight from "../assets/logo-light-mode.png";
+import logoDark from "../assets/logo-dark-mode.png";
+
 export default function FooterCom() {
+  const { theme } = useSelector((state) => state.theme);
+
   return (
     <Footer
       container
-      className="rounded-none border-0 border-t-2 border-teal-500"
+      className="rounded-none border-0 border-t-2 border-green-500"
     >
       <div className="w-full max-w-7xl mx-auto">
         <div className="grid w-full justify-between sm:flex md:grid-cols-1">
@@ -20,9 +26,16 @@ export default function FooterCom() {
               to="/"
               className="self-center whitespace-nowrap text-lg sm:text-xl font-semibold dark:text-white"
             >
-              <span className="px-3 py-2 bg-gradient-to-r from-green-500 via-teal-500 to-blue-500 rounded-sm text-white">
-                insight.
-              </span>
+              <img
+                className={`h-12 ${theme === "dark" ? "visible" : "hidden"}`}
+                src={logoDark}
+                alt="logo"
+              />
+              <img
+                className={`h-12 ${theme === "light" ? "visible" : "hidden"}`}
+                src={logoLight}
+                alt="logo"
+              />
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-6">

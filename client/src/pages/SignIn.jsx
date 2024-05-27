@@ -7,18 +7,31 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice.js";
-
+import logoLight from "../assets/logo-light-mode.png";
+import logoDark from "../assets/logo-dark-mode.png";
 import OAuth from "../components/OAuth.jsx";
 
+// Main SignIn component definition
 export default function SignIn() {
+  // Access theme state from Redux store
+  const { theme } = useSelector((state) => state.theme);
+
+  // Local state for form data
   const [formData, setFormData] = useState({});
+
+  // Access user state and dispatch from Redux
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  // Hook to navigate programmatically
   const navigate = useNavigate();
+
+  // Handle input changes and update formData state
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
@@ -43,24 +56,34 @@ export default function SignIn() {
       dispatch(signInFailure(error.message));
     }
   };
+
   return (
-    <div className="min-h-screen mt-20">
-      <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
-        {/* left */}
-        <div className="flex-1">
-          <Link to="/" className="font-bold dark:text-white text-4xl">
-            <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-              Avishka&apos;s
-            </span>
-            Blog
+    <div className="min-h-screen flex justify-center items-center">
+      <div className="flex max-w-4xl justify-center mx-auto flex-col md:flex-row items-center gap-16">
+        {/* Left section */}
+        <div className="flex-1 flex flex-col items-center">
+          <Link to="/">
+            {/* Conditional rendering based on theme */}
+            <img
+              className={`h-20 ${theme === "dark" ? "visible" : "hidden"}`}
+              src={logoDark}
+              alt="logo"
+            />
+            <img
+              className={`h-20 ${theme === "light" ? "visible" : "hidden"}`}
+              src={logoLight}
+              alt="logo"
+            />
           </Link>
-          <p className="text-sm mt-5">
-            This is a demo project. You can sign in with your email and password
-            or with Google.
+          <p className="text-sm mt-5 text-center">
+            Discover the essence of web development. Explore our articles on
+            JavaScript, React, and Next.js to ignite your coding passion and
+            expand your horizons. Dive into Insight and transform your skills
+            today.
           </p>
         </div>
-        {/* right */}
 
+        {/* Right section */}
         <div className="flex-1">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div>
@@ -81,11 +104,7 @@ export default function SignIn() {
                 onChange={handleChange}
               />
             </div>
-            <Button
-              gradientDuoTone="purpleToPink"
-              type="submit"
-              disabled={loading}
-            >
+            <Button color="success" type="submit" disabled={loading}>
               {loading ? (
                 <>
                   <Spinner size="sm" />
@@ -99,7 +118,7 @@ export default function SignIn() {
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Don&apos;t Have an account?</span>
-            <Link to="/sign-up" className="text-blue-500">
+            <Link to="/sign-up" className="text-green-600">
               Sign Up
             </Link>
           </div>

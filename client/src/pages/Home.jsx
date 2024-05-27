@@ -12,7 +12,7 @@ export default function Home() {
   useEffect(() => {
     // Function to fetch posts from the API
     const fetchPosts = async () => {
-      const res = await fetch("/api/post/getPosts"); // Fetch posts from the API endpoint
+      const res = await fetch("/api/post/getPosts?limit=4"); // Fetch posts from the API endpoint
       const data = await res.json(); // Parse the JSON response
       setPosts(data.posts); // Update the state with the fetched posts
     };
@@ -37,7 +37,7 @@ export default function Home() {
         </p>
         <Link
           to="/search"
-          className="inline-flex gap-1 items-center justify-center px-16 py-4 text-base font-medium text-center rounded-lg bg-gradient-to-r from-green-500 via-teal-500 to-blue-500 text-white hover:bg-gradient-to-l focus:ring-4 focus:ring-teal-300 dark:focus:ring-teal-900 shadow-sm"
+          className="inline-flex gap-1 items-center justify-center px-16 py-4 text-base font-medium text-center rounded-lg bg-green-600 text-white hover:bg-green-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900 shadow-md"
         >
           View all posts
           <svg
@@ -56,14 +56,14 @@ export default function Home() {
       </div>
 
       {/* Call to Action section */}
-      <div className="bg-teal-500">
-        <div className="container mx-auto  md:px-8 sm:px-4 p-2 py-16 ">
+      <div className="bg-green-600">
+        <div className="container mx-auto  md:px-16 sm:px-4 p-2 py-16 ">
           <CallToAction />
         </div>
       </div>
 
       {/* Posts section */}
-      <div className="container mx-auto md:px-8 sm:px-4 p-2 flex flex-col gap-8 py-16">
+      <div className="container mx-auto md:px-16 sm:px-4 p-2 flex flex-col gap-8 py-16">
         {/* Check if there are posts to display */}
         {posts && posts.length > 0 && (
           <div className="flex flex-col gap-16">
@@ -71,7 +71,7 @@ export default function Home() {
             <h2 className="text-3xl font-semibold text-center">Recent Posts</h2>
 
             {/* Container for post cards */}
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-8">
+            <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-y-8 justify-items-center">
               {/* Loop through each post and render a PostCard component */}
               {posts.map((post) => (
                 <PostCard key={post._id} post={post} /> // Each post card needs a unique key, which is post._id
@@ -81,9 +81,9 @@ export default function Home() {
             {/* Link to view all posts */}
             <Link
               to={"/search"}
-              className="text-lg text-teal-500 hover:underline text-center"
+              className="text-lg text-green-600 hover:underline text-center"
             >
-              View all posts...
+              View all posts
             </Link>
           </div>
         )}
