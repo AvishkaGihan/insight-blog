@@ -2,6 +2,8 @@
 
 This is a full-stack web application built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. It's a blogging platform where users can create, read, update, and delete blog posts. Users can also leave comments on posts and like/dislike comments.
 
+![Image](/assets/OQ3A8G1.png)
+
 ## Features
 
 - User authentication (sign up, sign in, sign out)
@@ -40,39 +42,44 @@ This is a full-stack web application built using the MERN (MongoDB, Express.js, 
 ### Installation
 
 1. Clone the repository:
-    ```bash
-    git clone https://github.com/AvishkaGihan/insight-blog.git
-    ```
+
+   ```bash
+   git clone https://github.com/AvishkaGihan/insight-blog.git
+   ```
 
 2. Install dependencies for the server:
-    ```bash
-    cd insight-blog
-    npm install
-    ```
+
+   ```bash
+   cd insight-blog
+   npm install
+   ```
 
 3. Install dependencies for the client:
-    ```bash
-    cd client
-    npm install
-    ```
+
+   ```bash
+   cd client
+   npm install
+   ```
 
 4. Create a `.env` file in the root directory and add the following environment variables:
-    ```env
-    MONGO=your-mongodb-connection-string
-    JWT_SECRET=your-jwt-secret
-    VITE_FIREBASE_API_KEY=your-firebase-api-key
-    ```
+
+   ```env
+   MONGO=your-mongodb-connection-string
+   JWT_SECRET=your-jwt-secret
+   VITE_FIREBASE_API_KEY=your-firebase-api-key
+   ```
 
 5. Start the server:
-    ```bash
-    npm run dev
-    ```
+
+   ```bash
+   npm run dev
+   ```
 
 6. Start the client in a separate terminal:
-    ```bash
-    cd client
-    npm run dev
-    ```
+   ```bash
+   cd client
+   npm run dev
+   ```
 
 The application should now be running at [http://localhost:5173](http://localhost:5173).
 
