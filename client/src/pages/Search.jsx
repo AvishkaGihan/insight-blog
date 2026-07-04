@@ -1,12 +1,8 @@
-// Import necessary components and hooks from external libraries
-import { Select, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PostCard from "../components/PostCard";
 
-// Define the Search component as the default export
 export default function Search() {
-  // Define state variables to manage search/filter criteria and posts data
   const [sidebarData, setSidebarData] = useState({
     searchTerm: "",
     sort: "desc",
@@ -16,19 +12,15 @@ export default function Search() {
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
 
-  // Get the current location and navigation objects from React Router
   const location = useLocation();
   const navigate = useNavigate();
 
-  // useEffect hook to handle side effects, such as fetching posts when the component mounts or location/search criteria change
   useEffect(() => {
-    // Extract query parameters from the URL
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
     const sortFromUrl = urlParams.get("sort");
     const categoryFromUrl = urlParams.get("category");
 
-    // Update sidebarData state if query parameters exist in the URL
     if (
       (searchTermFromUrl && searchTermFromUrl !== sidebarData.searchTerm) ||
       (sortFromUrl && sortFromUrl !== sidebarData.sort) ||
@@ -36,36 +28,34 @@ export default function Search() {
     ) {
       setSidebarData({
         ...sidebarData,
-        searchTerm: searchTermFromUrl,
-        sort: sortFromUrl,
-        category: categoryFromUrl,
+        searchTerm: searchTermFromUrl || "",
+        sort: sortFromUrl || "desc",
+        category: categoryFromUrl || "uncategorized",
       });
     }
 
-    // Function to fetch posts data from the server
     const fetchPosts = async () => {
-      setLoading(true); // Set loading state to true
-      const searchQuery = urlParams.toString(); // Convert URL parameters to string
-      const res = await fetch(`/api/post/getposts?${searchQuery}`); // Fetch posts from API
+      setLoading(true);
+      const searchQuery = urlParams.toString();
+      const res = await fetch(`/api/post/getposts?${searchQuery}`);
       if (!res.ok) {
-        setLoading(false); // Set loading state to false if request fails
+        setLoading(false);
         return;
       }
       if (res.ok) {
-        const data = await res.json(); // Parse response JSON
-        setPosts(data.posts); // Update posts state
-        setLoading(false); // Set loading state to false
+        const data = await res.json();
+        setPosts(data.posts);
+        setLoading(false);
         if (data.posts.length === 9) {
-          setShowMore(true); // Show "Show More" button if there are more posts to load
+          setShowMore(true);
         } else {
-          setShowMore(false); // Hide "Show More" button if there are no more posts to load
+          setShowMore(false);
         }
       }
     };
-    fetchPosts(); // Call the fetchPosts function
-  }, [location.search, sidebarData]); // Depend on location.search and sidebarData
+    fetchPosts();
+  }, [location.search]);
 
-  // Event handler to update sidebarData state when input values change
   const handleChange = (e) => {
     if (e.target.id === "searchTerm") {
       setSidebarData({ ...sidebarData, searchTerm: e.target.value });
@@ -80,7 +70,6 @@ export default function Search() {
     }
   };
 
-  // Event handler to handle form submission and update URL with search criteria
   const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams(location.search);
@@ -91,7 +80,6 @@ export default function Search() {
     navigate(`/search?${searchQuery}`);
   };
 
-  // Event handler to load more posts when "Show More" button is clicked
   const handleShowMore = async () => {
     const numberOfPosts = posts.length;
     const startIndex = numberOfPosts;
@@ -113,92 +101,124 @@ export default function Search() {
     }
   };
 
-  // Return the JSX to render the Search component
   return (
-    // Main container with responsive flex layout: column on small screens, row on medium and larger screens
-    <div className="flex flex-col md:flex-row">
-      {/* Sidebar container with padding, bottom border on small screens, right border on medium and larger screens, and minimum height on medium and larger screens */}
-      <div className="p-8 md:border-r md:min-h-screen border-gray-800 bg-surface/50 md:w-3/12 shadow-[4px_0_15px_rgba(0,0,0,0.2)] z-10 relative">
-        {/* Form to handle search and filter inputs, with vertical spacing between elements and onSubmit handler */}
-        <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-          {/* Container for search term input */}
-          <div className="flex flex-col items-start gap-1">
-            <label className="whitespace-nowrap font-semibold">
-              Search Term:
+    <div className="min-h-screen bg-white dark:bg-background relative overflow-hidden transition-colors duration-300 flex flex-col md:flex-row">
+      {/* Background grid mesh and glowing radial gradients */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000003_1px,transparent_1px),linear-gradient(to_bottom,#00000003_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none z-0"></div>
+      
+      {/* Soft backlighting */}
+      <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse"></div>
+      <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-amber-500/5 dark:bg-amber-500/10 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse"></div>
+
+      {/* Sidebar container */}
+      <div className="p-8 md:border-r border-gray-200/50 dark:border-white/5 bg-transparent md:w-3/12 z-10 relative">
+        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+          
+          {/* Search Term */}
+          <div className="flex flex-col gap-1.5 w-full">
+            <label className="text-xs font-extrabold uppercase tracking-wider text-gray-500 dark:text-text-muted select-none" htmlFor="searchTerm">
+              Search Term
             </label>
-            {/* TextInput for entering search term, controlled by sidebarData state */}
-            <TextInput
-              className="w-full"
+            <input
+              type="text"
               placeholder="Search..."
               id="searchTerm"
-              type="text"
               value={sidebarData.searchTerm}
               onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200/50 dark:border-white/10 bg-white/50 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all duration-200 text-sm"
             />
           </div>
-          {/* Container for sort option select */}
-          <div className="flex flex-col items-start gap-1">
-            <label className="font-semibold">Sort:</label>
-            {/* Select input for choosing sort order, controlled by sidebarData state */}
-            <Select
-              className="w-full"
-              onChange={handleChange}
-              value={sidebarData.sort}
-              id="sort"
-            >
-              <option value="desc">Latest</option>
-              <option value="asc">Oldest</option>
-            </Select>
+
+          {/* Sort Order */}
+          <div className="flex flex-col gap-1.5 w-full">
+            <label className="text-xs font-extrabold uppercase tracking-wider text-gray-500 dark:text-text-muted select-none" htmlFor="sort">
+              Sort Order
+            </label>
+            <div className="relative">
+              <select
+                id="sort"
+                value={sidebarData.sort}
+                onChange={handleChange}
+                className="appearance-none w-full px-4 py-2.5 rounded-xl border border-gray-200/50 dark:border-white/10 bg-white/50 dark:bg-black/30 text-gray-900 dark:text-white focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all duration-200 text-sm cursor-pointer pr-10"
+              >
+                <option value="desc">Latest</option>
+                <option value="asc">Oldest</option>
+              </select>
+            </div>
           </div>
-          {/* Container for category select */}
-          <div className="flex flex-col items-start gap-1">
-            <label className="font-semibold">Category:</label>
-            {/* Select input for choosing category, controlled by sidebarData state */}
-            <Select
-              className="w-full"
-              onChange={handleChange}
-              value={sidebarData.category}
-              id="category"
-            >
-              <option value="uncategorized">Uncategorized</option>
-              <option value="reactjs">React.js</option>
-              <option value="nextjs">Next.js</option>
-              <option value="javascript">JavaScript</option>
-            </Select>
+
+          {/* Category */}
+          <div className="flex flex-col gap-1.5 w-full">
+            <label className="text-xs font-extrabold uppercase tracking-wider text-gray-500 dark:text-text-muted select-none" htmlFor="category">
+              Category
+            </label>
+            <div className="relative">
+              <select
+                id="category"
+                value={sidebarData.category}
+                onChange={handleChange}
+                className="appearance-none w-full px-4 py-2.5 rounded-xl border border-gray-200/50 dark:border-white/10 bg-white/50 dark:bg-black/30 text-gray-900 dark:text-white focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all duration-200 text-sm cursor-pointer pr-10"
+              >
+                <option value="uncategorized">Uncategorized</option>
+                <option value="reactjs">React.js</option>
+                <option value="nextjs">Next.js</option>
+                <option value="javascript">JavaScript</option>
+              </select>
+            </div>
           </div>
-          {/* Button to submit the form and apply filters */}
-          <button className="mt-4 btn-outline-amber py-2 rounded-lg text-sm w-full" type="submit">
+
+          {/* Submit */}
+          <button className="mt-4 btn-amber py-2.5 rounded-xl text-sm w-full font-semibold transition-all duration-300 shadow-[0_0_15px_rgba(245,158,11,0.15)] hover:shadow-[0_0_20px_rgba(245,158,11,0.35)]" type="submit">
             Apply Filters
           </button>
         </form>
       </div>
 
-      {/* Main content container for displaying posts */}
-      <div className="w-full">
-        {/* Header for posts results */}
-        <div className="py-8 px-16 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-8 gap-4 justify-items-center relative">
-          <div className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] bg-steel-500/5 rounded-full blur-[150px] pointer-events-none"></div>
-          <h1 className="text-3xl font-display font-semibold col-span-3 text-text-primary">Posts results:</h1>
+      {/* Main content container */}
+      <div className="w-full p-8 md:p-12 z-10 relative">
+        {/* Results Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full border-b border-gray-200/50 dark:border-white/5 pb-4 mb-8">
+          <div>
+            <h1 className="text-3xl font-extrabold font-display leading-tight text-gray-900 dark:text-white">
+              Search{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-amber-500 dark:from-amber-500 dark:to-yellow-400 drop-shadow-[0_2px_15px_rgba(245,158,11,0.15)]">
+                results
+              </span>
+            </h1>
+            <p className="text-xs text-gray-500 dark:text-text-muted font-bold tracking-wider mt-1 uppercase">
+              {!loading && `${posts.length} ${posts.length === 1 ? 'article' : 'articles'} found`}
+            </p>
+          </div>
+        </div>
 
-          {/* Conditional rendering: message if no posts found and not loading */}
+        {/* Posts Grid */}
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-6 gap-y-10 justify-items-center">
           {!loading && posts.length === 0 && (
-            <p className="text-xl text-gray-500">No posts found.</p>
+            <p className="text-lg text-gray-500 font-semibold col-span-full py-12">No posts found matching your criteria.</p>
           )}
-          {/* Conditional rendering: loading message */}
-          {loading && <p className="text-xl text-gray-500">Loading...</p>}
-          {/* Conditional rendering: map through posts and display each with PostCard component */}
+          {loading && (
+            <div className="col-span-full py-12 flex justify-center items-center gap-3">
+              <svg className="animate-spin h-6 w-6 text-amber-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span className="text-gray-500 font-semibold">Fetching articles...</span>
+            </div>
+          )}
           {!loading &&
             posts &&
             posts.map((post) => <PostCard key={post._id} post={post} />)}
-          {/* Conditional rendering: Show More button if there are more posts to load */}
         </div>
+
         {showMore && (
-          <button
-            onClick={handleShowMore}
-            className="text-amber-500 text-lg hover:text-amber-400 hover:underline p-7 w-full transition-colors"
-          >
-            Show More
-          </button>
+          <div className="mt-12 flex justify-center">
+            <button
+              onClick={handleShowMore}
+              className="text-amber-500 text-sm font-bold tracking-wider hover:text-amber-400 py-3 px-8 rounded-xl border border-amber-500/20 hover:border-amber-500/40 bg-amber-500/5 hover:bg-amber-500/10 transition-all duration-300 uppercase shadow-sm"
+            >
+              Show More Results
+            </button>
+          </div>
         )}
       </div>
     </div>
