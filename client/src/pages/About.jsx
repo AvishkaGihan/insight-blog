@@ -1,12 +1,13 @@
 export default function About() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="max-w-2xl mx-auto p-3 text-center">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-cyber">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-amber-500/5 rounded-full blur-[150px] pointer-events-none"></div>
+      <div className="max-w-2xl mx-auto p-8 text-center glassmorphism rounded-2xl relative z-10 animate-fade-in glow-border m-4">
         <div>
-          <h1 className="text-3xl font font-semibold text-center my-7">
+          <h1 className="text-4xl font-display font-bold text-center my-7 text-gradient">
             About Insight
           </h1>
-          <div className="text-md text-gray-500 flex flex-col gap-6">
+          <div className="text-md text-text-muted flex flex-col gap-6 text-left">
             <p>
               Welcome to Insight, your premier source for mastering JavaScript,
               React, and Next.js. Our blog is dedicated to providing developers

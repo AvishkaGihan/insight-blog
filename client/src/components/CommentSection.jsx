@@ -104,7 +104,7 @@ export default function CommentSection({ postId }) {
         method: "DELETE",
       });
       if (res.ok) {
-        const data = await res.json();
+        await res.json();
         setComments(comments.filter((comment) => comment._id !== commentId));
       }
     } catch (error) {
@@ -123,7 +123,7 @@ export default function CommentSection({ postId }) {
           />
           <Link
             to={"/dashboard?tab=profile"}
-            className="text-xs text-cyan-600 hover:underline"
+            className="text-xs text-steel-500 hover:underline"
           >
             @{currentUser.username}
           </Link>
@@ -137,10 +137,10 @@ export default function CommentSection({ postId }) {
         </div>
       )}
       {currentUser && (
-        <form
-          onSubmit={handleSubmit}
-          className="border border-green-500 rounded-md p-3"
-        >
+          <form
+            onSubmit={handleSubmit}
+            className="border border-amber-500/50 rounded-md p-3 glassmorphism"
+          >
           <Textarea
             placeholder="Add a comment..."
             rows="3"
@@ -148,14 +148,14 @@ export default function CommentSection({ postId }) {
             onChange={(e) => setComment(e.target.value)}
             value={comment}
           />
-          <div className="flex justify-between items-center mt-5">
-            <p className="text-gray-500 text-xs">
-              {200 - comment.length} characters remaining
-            </p>
-            <Button outline color="success" type="submit">
-              Submit
-            </Button>
-          </div>
+            <div className="flex justify-between items-center mt-5">
+              <p className="text-gray-500 text-xs">
+                {200 - comment.length} characters remaining
+              </p>
+              <button type="submit" className="btn-amber px-4 py-1.5 rounded-lg text-sm">
+                Submit
+              </button>
+            </div>
           {commentError && (
             <Alert color="failure" className="mt-5">
               {commentError}

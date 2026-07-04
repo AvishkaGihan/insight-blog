@@ -6,7 +6,7 @@ import {
   HiDocumentText,
   HiOutlineUserGroup,
 } from "react-icons/hi";
-import { Button, Table } from "flowbite-react";
+import { Table } from "flowbite-react";
 import { Link } from "react-router-dom";
 
 export default function DashboardComp() {
@@ -69,50 +69,50 @@ export default function DashboardComp() {
   return (
     <div className="p-3 md:mx-auto">
       <div className="flex-wrap flex gap-4 justify-center">
-        <div className="flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md">
+        <div className="flex flex-col p-3 dark:bg-surface glassmorphism gap-4 md:w-72 w-full rounded-xl shadow-md glow-border">
           <div className="flex justify-between">
             <div className="">
-              <h3 className="text-gray-500 text-md uppercase">Total Users</h3>
-              <p className="text-2xl">{totalUsers}</p>
+              <h3 className="text-gray-500 text-md uppercase font-display font-semibold">Total Users</h3>
+              <p className="text-2xl text-text-primary">{totalUsers}</p>
             </div>
-            <HiOutlineUserGroup className="bg-teal-600  text-white rounded-full text-5xl p-3 shadow-lg" />
+            <HiOutlineUserGroup className="bg-amber-500/20 text-amber-500 rounded-full text-5xl p-3 shadow-[0_0_15px_rgba(255,165,0,0.3)]" />
           </div>
           <div className="flex  gap-2 text-sm">
-            <span className="text-green-500 flex items-center">
+            <span className="text-amber-500 flex items-center font-bold">
               <HiArrowNarrowUp />
               {lastMonthUsers}
             </span>
             <div className="text-gray-500">Last month</div>
           </div>
         </div>
-        <div className="flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md">
+        <div className="flex flex-col p-3 dark:bg-surface glassmorphism gap-4 md:w-72 w-full rounded-xl shadow-md glow-border" style={{ borderColor: 'rgba(205, 179, 255, 0.3)' }}>
           <div className="flex justify-between">
             <div className="">
-              <h3 className="text-gray-500 text-md uppercase">
+              <h3 className="text-gray-500 text-md uppercase font-display font-semibold">
                 Total Comments
               </h3>
-              <p className="text-2xl">{totalComments}</p>
+              <p className="text-2xl text-text-primary">{totalComments}</p>
             </div>
-            <HiAnnotation className="bg-indigo-600  text-white rounded-full text-5xl p-3 shadow-lg" />
+            <HiAnnotation className="bg-purple-500/20 text-purple-500 rounded-full text-5xl p-3 shadow-[0_0_15px_rgba(168,85,247,0.3)]" />
           </div>
           <div className="flex  gap-2 text-sm">
-            <span className="text-green-500 flex items-center">
+            <span className="text-purple-500 flex items-center font-bold">
               <HiArrowNarrowUp />
               {lastMonthComments}
             </span>
             <div className="text-gray-500">Last month</div>
           </div>
         </div>
-        <div className="flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md">
+        <div className="flex flex-col p-3 dark:bg-surface glassmorphism gap-4 md:w-72 w-full rounded-xl shadow-md glow-border" style={{ borderColor: 'rgba(56, 189, 248, 0.3)' }}>
           <div className="flex justify-between">
             <div className="">
-              <h3 className="text-gray-500 text-md uppercase">Total Posts</h3>
-              <p className="text-2xl">{totalPosts}</p>
+              <h3 className="text-gray-500 text-md uppercase font-display font-semibold">Total Posts</h3>
+              <p className="text-2xl text-text-primary">{totalPosts}</p>
             </div>
-            <HiDocumentText className="bg-lime-600  text-white rounded-full text-5xl p-3 shadow-lg" />
+            <HiDocumentText className="bg-steel-500/20 text-steel-500 rounded-full text-5xl p-3 shadow-[0_0_15px_rgba(56,189,248,0.3)]" />
           </div>
           <div className="flex  gap-2 text-sm">
-            <span className="text-green-500 flex items-center">
+            <span className="text-steel-500 flex items-center font-bold">
               <HiArrowNarrowUp />
               {lastMonthPosts}
             </span>
@@ -121,12 +121,12 @@ export default function DashboardComp() {
         </div>
       </div>
       <div className="flex flex-wrap gap-4 py-3 mx-auto justify-center">
-        <div className="flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800">
+        <div className="flex flex-col w-full md:w-auto shadow-[0_0_15px_rgba(0,0,0,0.5)] p-2 rounded-xl dark:bg-surface border border-gray-800">
           <div className="flex justify-between  p-3 text-sm font-semibold">
-            <h1 className="text-center p-2">Recent users</h1>
-            <Button outline color="success">
+            <h1 className="text-center p-2 font-display">Recent users</h1>
+            <button className="btn-outline-amber px-4 py-1 rounded-lg">
               <Link to={"/dashboard?tab=users"}>See all</Link>
-            </Button>
+            </button>
           </div>
           <Table hoverable>
             <Table.Head>
@@ -136,7 +136,7 @@ export default function DashboardComp() {
             {users &&
               users.map((user) => (
                 <Table.Body key={user._id} className="divide-y">
-                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Row className="bg-white dark:border-gray-800 dark:bg-surface/50">
                     <Table.Cell>
                       <img
                         src={user.profilePicture}
@@ -150,12 +150,12 @@ export default function DashboardComp() {
               ))}
           </Table>
         </div>
-        <div className="flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800">
+        <div className="flex flex-col w-full md:w-auto shadow-[0_0_15px_rgba(0,0,0,0.5)] p-2 rounded-xl dark:bg-surface border border-gray-800">
           <div className="flex justify-between  p-3 text-sm font-semibold">
-            <h1 className="text-center p-2">Recent comments</h1>
-            <Button outline color="success">
+            <h1 className="text-center p-2 font-display">Recent comments</h1>
+            <button className="btn-outline-amber px-4 py-1 rounded-lg">
               <Link to={"/dashboard?tab=comments"}>See all</Link>
-            </Button>
+            </button>
           </div>
           <Table hoverable>
             <Table.Head>
@@ -165,7 +165,7 @@ export default function DashboardComp() {
             {comments &&
               comments.map((comment) => (
                 <Table.Body key={comment._id} className="divide-y">
-                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Row className="bg-white dark:border-gray-800 dark:bg-surface/50">
                     <Table.Cell className="w-96">
                       <p className="line-clamp-2">{comment.content}</p>
                     </Table.Cell>
@@ -175,12 +175,12 @@ export default function DashboardComp() {
               ))}
           </Table>
         </div>
-        <div className="flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800">
+        <div className="flex flex-col w-full md:w-auto shadow-[0_0_15px_rgba(0,0,0,0.5)] p-2 rounded-xl dark:bg-surface border border-gray-800">
           <div className="flex justify-between  p-3 text-sm font-semibold">
-            <h1 className="text-center p-2">Recent posts</h1>
-            <Button outline color="success">
+            <h1 className="text-center p-2 font-display">Recent posts</h1>
+            <button className="btn-outline-amber px-4 py-1 rounded-lg">
               <Link to={"/dashboard?tab=posts"}>See all</Link>
-            </Button>
+            </button>
           </div>
           <Table hoverable>
             <Table.Head>
@@ -191,7 +191,7 @@ export default function DashboardComp() {
             {posts &&
               posts.map((post) => (
                 <Table.Body key={post._id} className="divide-y">
-                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Row className="bg-white dark:border-gray-800 dark:bg-surface/50">
                     <Table.Cell>
                       <img
                         src={post.image}

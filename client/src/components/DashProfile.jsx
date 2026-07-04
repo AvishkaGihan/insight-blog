@@ -1,4 +1,4 @@
-import { Alert, Button, Modal, TextInput } from "flowbite-react";
+import { Alert, Modal, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -47,6 +47,7 @@ export default function DashProfile() {
     if (imageFile) {
       uploadImage();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageFile]);
 
   const uploadImage = async () => {
@@ -64,7 +65,7 @@ export default function DashProfile() {
 
         setImageFileUploadProgress(progress.toFixed(0));
       },
-      (error) => {
+      () => {
         setImageFileUploadError(
           "Could not upload image (File must be less than 2MB)"
         );
@@ -166,10 +167,10 @@ export default function DashProfile() {
           ref={filePickerRef}
           hidden
         />
-        <div
-          className="relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full"
-          onClick={() => filePickerRef.current.click()}
-        >
+          <div
+            className={`w-32 h-32 self-center cursor-pointer shadow-[0_0_15px_rgba(255,165,0,0.5)] overflow-hidden rounded-full border-2 border-amber-500 relative`}
+            onClick={() => filePickerRef.current.click()}
+          >
           {imageFileUploadProgress && (
             <CircularProgressbar
               value={imageFileUploadProgress || 0}
@@ -224,23 +225,25 @@ export default function DashProfile() {
           placeholder="password"
           onChange={handleChange}
         />
-        <Button
+        <button
           type="submit"
-          color="success"
-          outline
+          className="btn-amber py-2 rounded-lg text-sm w-full font-bold"
           disabled={loading || imageFileUploading}
         >
           {loading ? "Loading..." : "Update"}
-        </Button>
+        </button>
         {currentUser.isAdmin && (
           <Link to={"/create-post"}>
-            <Button type="button" color="success" className="w-full">
+            <button
+              type="button"
+              className="btn-outline-amber py-2 rounded-lg text-sm w-full font-bold mt-4"
+            >
               Create a post
-            </Button>
+            </button>
           </Link>
         )}
       </form>
-      <div className="text-red-500 flex justify-between mt-5">
+      <div className="text-red-500 flex justify-between mt-5 font-medium">
         <span onClick={() => setShowModal(true)} className="cursor-pointer">
           Delete Account
         </span>
@@ -277,12 +280,12 @@ export default function DashProfile() {
               Are you sure you want to delete your account?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={handleDeleteUser}>
+              <button color="failure" onClick={handleDeleteUser} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors">
                 Yes, I&apos;m sure
-              </Button>
-              <Button color="gray" onClick={() => setShowModal(false)}>
-                cancel
-              </Button>
+              </button>
+              <button color="gray" onClick={() => setShowModal(false)} className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors">
+                No, cancel
+              </button>
             </div>
           </div>
         </Modal.Body>

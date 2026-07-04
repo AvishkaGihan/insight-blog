@@ -1,6 +1,6 @@
 import { useState } from "react"; // Importing useState hook from React for managing local component state.
 import { Link, useNavigate } from "react-router-dom"; // Importing Link and useNavigate from react-router-dom for navigation and linking.
-import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react"; // Importing various components from flowbite-react for UI elements.
+import { Alert, Label, Spinner, TextInput } from "flowbite-react"; // Importing various components from flowbite-react for UI elements.
 import { useSelector } from "react-redux"; // Importing useSelector from react-redux to access the Redux state.
 
 import logoLight from "../assets/logo-light-mode.png"; // Importing the light mode logo image.
@@ -59,9 +59,11 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
+    <div className="min-h-screen flex justify-center items-center relative overflow-hidden bg-gradient-cyber">
+      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[120px] pointer-events-none"></div>
       {/* Container div with minimum height and top margin */}
-      <div className="flex max-w-4xl justify-center mx-auto flex-col md:flex-row items-center gap-16">
+      <div className="flex max-w-4xl w-full justify-center mx-auto flex-col md:flex-row items-center gap-16 p-8 glassmorphism rounded-2xl relative z-10 animate-fade-in glow-border m-4">
         {/* Main content container with flexbox layout */}
 
         {/* Left section */}
@@ -119,9 +121,9 @@ export default function SignUp() {
                 onChange={handleChange} // Setting the onChange handler for password input
               />
             </div>
-            <Button
+            <button
               type="submit"
-              color="success"
+              className="btn-amber py-2 rounded-lg text-sm flex justify-center items-center"
               disabled={loading} // Disabling the button if loading is true
             >
               {loading ? ( // Conditional rendering based on loading state
@@ -132,14 +134,14 @@ export default function SignUp() {
               ) : (
                 "Sign Up" // Button text when not loading
               )}
-            </Button>
+            </button>
             <OAuth /> {/* OAuth component for social login options */}
           </form>
           <div className="flex gap-2 text-sm mt-5">
             {" "}
             {/* Link to the sign-in page */}
             <span>Have an Account</span>
-            <Link to="/sign-in" className="text-green-500">
+            <Link to="/sign-in" className="text-amber-500 hover:text-amber-400 hover:underline">
               Sign In
             </Link>
           </div>

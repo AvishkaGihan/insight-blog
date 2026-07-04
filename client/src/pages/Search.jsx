@@ -1,5 +1,5 @@
 // Import necessary components and hooks from external libraries
-import { Button, Select, TextInput } from "flowbite-react";
+import { Select, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PostCard from "../components/PostCard";
@@ -118,7 +118,7 @@ export default function Search() {
     // Main container with responsive flex layout: column on small screens, row on medium and larger screens
     <div className="flex flex-col md:flex-row">
       {/* Sidebar container with padding, bottom border on small screens, right border on medium and larger screens, and minimum height on medium and larger screens */}
-      <div className="p-8 md:border-r md:min-h-screen border-gray-200 md:w-3/12">
+      <div className="p-8 md:border-r md:min-h-screen border-gray-800 bg-surface/50 md:w-3/12 shadow-[4px_0_15px_rgba(0,0,0,0.2)] z-10 relative">
         {/* Form to handle search and filter inputs, with vertical spacing between elements and onSubmit handler */}
         <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
           {/* Container for search term input */}
@@ -167,18 +167,18 @@ export default function Search() {
             </Select>
           </div>
           {/* Button to submit the form and apply filters */}
-          <Button className="mt-4" type="submit" color="success" outline>
+          <button className="mt-4 btn-outline-amber py-2 rounded-lg text-sm w-full" type="submit">
             Apply Filters
-          </Button>
+          </button>
         </form>
       </div>
 
       {/* Main content container for displaying posts */}
       <div className="w-full">
         {/* Header for posts results */}
-        {/* Container for posts with padding and flex layout for wrapping posts */}
-        <div className="py-8 px-16 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-8 gap-4 justify-items-center">
-          <h1 className="text-3xl font-semibold col-span-3">Posts results:</h1>
+        <div className="py-8 px-16 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-8 gap-4 justify-items-center relative">
+          <div className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] bg-steel-500/5 rounded-full blur-[150px] pointer-events-none"></div>
+          <h1 className="text-3xl font-display font-semibold col-span-3 text-text-primary">Posts results:</h1>
 
           {/* Conditional rendering: message if no posts found and not loading */}
           {!loading && posts.length === 0 && (
@@ -195,7 +195,7 @@ export default function Search() {
         {showMore && (
           <button
             onClick={handleShowMore}
-            className="text-blue-500 text-lg hover:underline p-7 w-full"
+            className="text-amber-500 text-lg hover:text-amber-400 hover:underline p-7 w-full transition-colors"
           >
             Show More
           </button>

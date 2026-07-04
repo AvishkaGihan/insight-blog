@@ -51,7 +51,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
     }
   };
   return (
-    <div className="flex p-4 border-b dark:border-gray-600 text-sm">
+    <div className="flex p-4 border-b border-gray-800 dark:border-gray-800 text-sm glassmorphism mb-2 rounded-lg">
       <div className="flex-shrink-0 mr-3">
         <img
           className="w-10 h-10 rounded-full bg-gray-200"

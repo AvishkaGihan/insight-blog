@@ -1,4 +1,4 @@
-import { Modal, Table, Button } from "flowbite-react";
+import { Modal, Table } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -27,7 +27,7 @@ export default function DashComments() {
     if (currentUser.isAdmin) {
       fetchComments();
     }
-  }, [currentUser._id]);
+  }, [currentUser._id, currentUser.isAdmin]);
 
   const handleShowMore = async () => {
     const startIndex = comments.length;
@@ -84,9 +84,9 @@ export default function DashComments() {
               <Table.HeadCell>Delete</Table.HeadCell>
             </Table.Head>
             {comments.map((comment) => (
-              <Table.Body className="divide-y" key={comment._id}>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell>
+                <Table.Body className="divide-y" key={comment._id}>
+                  <Table.Row className="bg-white dark:border-gray-800 dark:bg-surface/50">
+                    <Table.Cell>
                     {new Date(comment.updatedAt).toLocaleDateString()}
                   </Table.Cell>
                   <Table.Cell>{comment.content}</Table.Cell>
@@ -110,11 +110,11 @@ export default function DashComments() {
           </Table>
           {showMore && (
             <button
-              onClick={handleShowMore}
-              className="w-full text-teal-500 self-center text-sm py-7"
-            >
-              Show more
-            </button>
+            onClick={handleShowMore}
+            className="w-full text-amber-500 self-center text-sm py-7 hover:text-amber-400 hover:underline transition-colors font-medium"
+          >
+            Show more
+          </button>
           )}
         </>
       ) : (
@@ -134,12 +134,16 @@ export default function DashComments() {
               Are you sure you want to delete this comment?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={handleDeleteComment}>
+              <button
+                color="failure"
+                onClick={handleDeleteComment}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
+              >
                 Yes, I&apos;m sure
-              </Button>
-              <Button color="gray" onClick={() => setShowModal(false)}>
+              </button>
+              <button color="gray" onClick={() => setShowModal(false)} className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors">
                 No, cancel
-              </Button>
+              </button>
             </div>
           </div>
         </Modal.Body>

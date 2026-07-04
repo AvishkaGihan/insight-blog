@@ -23,11 +23,15 @@ export default function Home() {
   return (
     <div>
       {/* Main content container */}
-      <div className="container lg:px-16 md:px-8 sm:px-4 p-2 mx-auto flex flex-col gap-4 justify-center items-center text-center min-h-screen">
-        <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
+      <div className="container lg:px-16 md:px-8 sm:px-4 p-2 mx-auto flex flex-col gap-4 justify-center items-center text-center min-h-screen relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-amber-500/20 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white font-display text-gradient animate-fade-in">
           Welcome to insight.
         </h1>
-        <p className="max-w-2xl mb-6 font-light text-gray-600 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-300  ">
+        <p className="max-w-2xl mb-6 font-light text-gray-600 lg:mb-8 md:text-lg lg:text-xl dark:text-text-muted animate-slide-up">
           Unlock the world of web development with our expertly curated articles
           on JavaScript, React, and Next.js. Whether you&apos;re a beginner
           looking to grasp the basics or a seasoned developer aiming to stay
@@ -37,7 +41,8 @@ export default function Home() {
         </p>
         <Link
           to="/search"
-          className="inline-flex gap-1 items-center justify-center px-16 py-4 text-base font-medium text-center rounded-lg bg-green-600 text-white hover:bg-green-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900 shadow-md"
+          className="inline-flex gap-1 items-center justify-center px-16 py-4 text-base font-medium text-center rounded-lg btn-amber animate-slide-up"
+          style={{ animationDelay: "0.2s" }}
         >
           View all posts
           <svg
@@ -56,8 +61,9 @@ export default function Home() {
       </div>
 
       {/* Call to Action section */}
-      <div className="bg-green-600">
-        <div className="container mx-auto  md:px-16 sm:px-4 p-2 py-16 ">
+      <div className="bg-gradient-cyber border-y border-gray-800 relative">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-30"></div>
+        <div className="container mx-auto md:px-16 sm:px-4 p-2 py-16 relative z-10">
           <CallToAction />
         </div>
       </div>
@@ -81,7 +87,7 @@ export default function Home() {
             {/* Link to view all posts */}
             <Link
               to={"/search"}
-              className="text-lg text-green-600 hover:underline text-center"
+              className="text-lg text-amber-500 hover:text-amber-400 hover:underline text-center font-medium transition-colors"
             >
               View all posts
             </Link>

@@ -17,8 +17,9 @@ export default function FooterCom() {
   return (
     <Footer
       container
-      className="rounded-none border-0 border-t-2 border-green-500"
+      className="rounded-none border-t border-gray-800 bg-surface relative z-10"
     >
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-amber-500 via-steel-500 to-purple-500"></div>
       <div className="w-full max-w-7xl mx-auto">
         <div className="grid w-full justify-between sm:flex md:grid-cols-1">
           <div className="mt-5">
@@ -73,14 +74,15 @@ export default function FooterCom() {
             year={new Date().getFullYear()}
           />
           <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center">
-            <Footer.Icon href="#" icon={BsFacebook} />
-            <Footer.Icon href="#" icon={BsInstagram} />
-            <Footer.Icon href="#" icon={BsTwitter} />
+            <Footer.Icon href="#" icon={BsFacebook} className="hover:text-amber-500 hover:drop-shadow-[0_0_8px_rgba(255,165,0,0.8)] transition-all" />
+            <Footer.Icon href="#" icon={BsInstagram} className="hover:text-amber-500 hover:drop-shadow-[0_0_8px_rgba(255,165,0,0.8)] transition-all" />
+            <Footer.Icon href="#" icon={BsTwitter} className="hover:text-amber-500 hover:drop-shadow-[0_0_8px_rgba(255,165,0,0.8)] transition-all" />
             <Footer.Icon
               href="https://github.com/AvishkaGihan"
               icon={BsGithub}
+              className="hover:text-amber-500 hover:drop-shadow-[0_0_8px_rgba(255,165,0,0.8)] transition-all"
             />
-            <Footer.Icon href="#" icon={BsDribbble} />
+            <Footer.Icon href="#" icon={BsDribbble} className="hover:text-amber-500 hover:drop-shadow-[0_0_8px_rgba(255,165,0,0.8)] transition-all" />
           </div>
         </div>
       </div>

@@ -1,14 +1,14 @@
-import { Button, Spinner } from "flowbite-react";
+import { Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import CallToAction from "../components/CallToAction";
+
 import CommentSection from "../components/CommentSection";
 import PostCard from "../components/PostCard";
 
 export default function PostPage() {
   const { postSlug } = useParams();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+
   const [post, setPost] = useState(null);
   const [recentPosts, setRecentPosts] = useState([]);
 
@@ -19,17 +19,17 @@ export default function PostPage() {
         const res = await fetch(`/api/post/getposts?slug=${postSlug}`);
         const data = await res.json();
         if (!res.ok) {
-          setError(true);
+
           setLoading(false);
           return;
         }
         if (res.ok) {
           setPost(data.posts[0]);
           setLoading(false);
-          setError(false);
+
         }
       } catch (error) {
-        setError(true);
+
         setLoading(false);
       }
     };
@@ -59,26 +59,30 @@ export default function PostPage() {
     );
 
   return (
-    <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
-      <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
+    <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen animate-fade-in relative">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[300px] bg-amber-500/10 rounded-full blur-[150px] pointer-events-none"></div>
+      <h1 className="text-3xl mt-10 p-3 text-center font-display font-bold max-w-2xl mx-auto lg:text-5xl text-text-primary">
         {post && post.title}
       </h1>
       <Link
         to={`/search?category=${post && post.category}`}
         className="self-center mt-5"
       >
-        <Button color="gray" pill size="xs">
+        <span className="bg-amber-500/20 text-amber-500 border border-amber-500/50 px-4 py-1 rounded-full text-sm hover:bg-amber-500 hover:text-black transition-colors shadow-[0_0_10px_rgba(255,165,0,0.2)]">
           {post && post.category}
-        </Button>
+        </span>
       </Link>
-      <img
-        src={post && post.image}
-        alt={post && post.title}
-        className="mt-10 p-3 max-h-[600px] w-full object-cover"
-      />
-      <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
+      <div className="mt-10 p-3 w-full relative group">
+        <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none z-10"></div>
+        <img
+          src={post && post.image}
+          alt={post && post.title}
+          className="max-h-[600px] w-full object-cover rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.5)] border border-gray-800"
+        />
+      </div>
+      <div className="flex justify-between p-3 border-b border-gray-800 mx-auto w-full max-w-2xl text-xs text-text-muted mt-5">
         <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
-        <span className="italic">
+        <span className="italic text-amber-500/80">
           {post && (post.content.length / 1000).toFixed(0)} mins read
         </span>
       </div>
@@ -88,9 +92,9 @@ export default function PostPage() {
       ></div>
 
       <CommentSection postId={post._id} />
-      <div className="flex flex-col justify-center items-center mb-5">
-        <h1 className="text-xl mt-5">Recent articles</h1>
-        <div className="flex flex-wrap gap-5 mt-5 justify-center">
+      <div className="flex flex-col justify-center items-center mb-5 mt-10">
+        <h1 className="text-2xl mt-5 font-display text-text-primary">Recent articles</h1>
+        <div className="flex flex-wrap gap-5 mt-8 justify-center">
           {recentPosts &&
             recentPosts.map((post) => <PostCard key={post._id} post={post} />)}
         </div>

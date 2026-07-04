@@ -1,4 +1,4 @@
-import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
+import { Alert, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,8 +58,10 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
-      <div className="flex max-w-4xl justify-center mx-auto flex-col md:flex-row items-center gap-16">
+    <div className="min-h-screen flex justify-center items-center relative overflow-hidden bg-gradient-cyber">
+      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="flex max-w-4xl w-full justify-center mx-auto flex-col md:flex-row items-center gap-16 p-8 glassmorphism rounded-2xl relative z-10 animate-fade-in glow-border m-4">
         {/* Left section */}
         <div className="flex-1 flex flex-col items-center">
           <Link to="/">
@@ -104,7 +106,7 @@ export default function SignIn() {
                 onChange={handleChange}
               />
             </div>
-            <Button color="success" type="submit" disabled={loading}>
+            <button className="btn-amber py-2 rounded-lg text-sm flex justify-center items-center" type="submit" disabled={loading}>
               {loading ? (
                 <>
                   <Spinner size="sm" />
@@ -113,12 +115,12 @@ export default function SignIn() {
               ) : (
                 "Sign In"
               )}
-            </Button>
+            </button>
             <OAuth />
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Don&apos;t Have an account?</span>
-            <Link to="/sign-up" className="text-green-600">
+            <Link to="/sign-up" className="text-amber-500 hover:text-amber-400 hover:underline">
               Sign Up
             </Link>
           </div>

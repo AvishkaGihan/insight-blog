@@ -51,10 +51,10 @@ export default function Header() {
   };
 
   return (
-    <Navbar className="md:!px-16 sm:!px-2 py-4  shadow-md w-[100%]">
+    <Navbar className="md:!px-16 sm:!px-2 py-4 border-b border-gray-800 dark:border-amber-500/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_0_15px_rgba(255,165,0,0.1)] bg-white/70 dark:bg-background/80 backdrop-blur-md w-[100%] sticky top-0 z-50">
       <Link
         to="/"
-        className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
+        className="self-center whitespace-nowrap text-sm sm:text-xl font-bold font-display dark:text-white"
       >
         <img
           className={`h-10 ${theme === "dark" ? "visible" : "hidden"}`}
@@ -75,6 +75,7 @@ export default function Header() {
           className="hidden lg:inline"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          color="gray"
         />
       </form>
       <Button className="w-12 h-10 lg:hidden" color="gray" pill>
@@ -85,9 +86,10 @@ export default function Header() {
           className="w-12 h-10 hidden sm:inline"
           color="gray"
           pill
+          outline
           onClick={() => dispatch(toggleTheme())}
         >
-          {theme === "light" ? <FaSun /> : <FaMoon />}
+          {theme === "light" ? <FaSun className="text-amber-500" /> : <FaMoon className="text-steel-500" />}
         </Button>
         {currentUser ? (
           <Dropdown
@@ -111,20 +113,20 @@ export default function Header() {
           </Dropdown>
         ) : (
           <Link to="/sign-in">
-            <Button color="success">Sign In</Button>
+            <button className="btn-amber px-4 py-2 rounded-lg">Sign In</button>
           </Link>
         )}
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
         <Navbar.Link active={path === "/"} as={"div"}>
-          <Link to="/">Home</Link>
+          <Link to="/" className={`font-medium ${path === "/" ? "text-amber-500 dark:text-amber-500" : "hover:text-amber-500 dark:hover:text-amber-500 transition-colors"}`}>Home</Link>
         </Navbar.Link>
         <Navbar.Link active={path === "/about"} as={"div"}>
-          <Link to="/about">About</Link>
+          <Link to="/about" className={`font-medium ${path === "/about" ? "text-amber-500 dark:text-amber-500" : "hover:text-amber-500 dark:hover:text-amber-500 transition-colors"}`}>About</Link>
         </Navbar.Link>
         <Navbar.Link active={path === "/projects"} as={"div"}>
-          <Link to="/projects">Projects</Link>
+          <Link to="/projects" className={`font-medium ${path === "/projects" ? "text-amber-500 dark:text-amber-500" : "hover:text-amber-500 dark:hover:text-amber-500 transition-colors"}`}>Projects</Link>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>

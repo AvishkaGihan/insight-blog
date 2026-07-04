@@ -44,7 +44,7 @@ export default function DashSidebar() {
   };
 
   return (
-    <Sidebar className="w-full md:w-56 ">
+    <Sidebar className="w-full md:w-56 dark:bg-surface border-r border-gray-800">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
           {currentUser && currentUser.isAdmin && (
@@ -65,6 +65,7 @@ export default function DashSidebar() {
               label={currentUser.isAdmin ? "Admin" : "User"}
               labelColor="dark"
               as="div"
+              className={tab === "profile" ? "bg-amber-500/20 text-amber-500 hover:bg-amber-500/30" : ""}
             >
               Profile
             </Sidebar.Item>

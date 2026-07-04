@@ -2,8 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --color-surface: 220 25% 10%;
+    --color-background: 0 0% 4%;
+    --color-amber: 30 100% 55%;
+    --color-steel: 205 70% 50%;
+    --color-purple: 270 40% 55%;
+    --color-text: 0 0% 92%;
+    --color-text-muted: 215 15% 55%;
+  }
+}
+
 body {
   height: 100vh;
+  font-family: 'Inter', sans-serif;
+  @apply bg-background text-text-primary;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 .ql-editor {
@@ -17,14 +35,16 @@ body {
 .post-content h1 {
   font-size: 1.5rem;
   font-weight: 600;
-  font-family: sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   margin: 1.5rem 0;
+  @apply text-amber-500;
 }
 
 .post-content h2 {
   font-size: 1.4rem;
-  font-family: sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   margin: 1.5rem 0;
+  @apply text-steel-500;
 }
 
 .post-content a {
@@ -37,5 +57,38 @@ body {
 }
 
 .dark .post-content a {
-  color: red;
+  @apply text-amber-500;
+}
+
+/* Custom utilities */
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-500 via-steel-500 to-purple-500;
+  }
+  .bg-gradient-cyber {
+    @apply bg-gradient-to-br from-surface via-background to-surface;
+  }
+  .glassmorphism {
+    @apply bg-surface/80 backdrop-blur-md border border-gray-800;
+  }
+  .glow-border {
+    @apply border border-amber-500/50 shadow-[0_0_15px_rgba(255,165,0,0.3)];
+  }
+  .glow-border:hover {
+    @apply border-amber-500 shadow-[0_0_25px_rgba(255,165,0,0.6)];
+  }
+  .btn-amber {
+    @apply text-black bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 shadow-[0_0_10px_rgba(255,165,0,0.4)] hover:shadow-[0_0_20px_rgba(255,165,0,0.6)] transition-all duration-300 font-medium;
+  }
+  .btn-outline-amber {
+    @apply border-2 border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black shadow-[0_0_10px_rgba(255,165,0,0.2)] hover:shadow-[0_0_20px_rgba(255,165,0,0.6)] transition-all duration-300 font-medium;
+  }
+}
+
+/* Overriding flowbite defaults where necessary to fit the theme */
+.dark .dark\:bg-gray-800 {
+  @apply bg-surface border-gray-800;
+}
+.dark .dark\:border-gray-700 {
+  @apply border-gray-800;
 }
