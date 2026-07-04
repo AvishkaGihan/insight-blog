@@ -1,4 +1,4 @@
-import { Alert, Modal, TextInput } from "flowbite-react";
+import { Alert, Modal } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -6,7 +6,7 @@ import {
   getStorage,
   ref,
   uploadBytesResumable,
-} from "firebase/storage";
+  } from "firebase/storage";
 import { app } from "../firebase";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -36,6 +36,7 @@ export default function DashProfile() {
   const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
   const dispatch = useDispatch();
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -43,6 +44,7 @@ export default function DashProfile() {
       setImageFileUrl(URL.createObjectURL(file));
     }
   };
+
   useEffect(() => {
     if (imageFile) {
       uploadImage();
@@ -62,7 +64,6 @@ export default function DashProfile() {
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
         setImageFileUploadProgress(progress.toFixed(0));
       },
       () => {
@@ -136,7 +137,7 @@ export default function DashProfile() {
         dispatch(deleteUserSuccess());
       }
     } catch (error) {
-      deleteUserFailure(error.message);
+      dispatch(deleteUserFailure(error.message));
     }
   };
 
@@ -157,115 +158,181 @@ export default function DashProfile() {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-3 w-full">
-      <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          ref={filePickerRef}
-          hidden
-        />
+    <div className="max-w-xl mx-auto p-4 w-full flex flex-col items-stretch z-10 relative">
+      {/* Title block */}
+      <div className="flex flex-col items-center gap-2 text-center mb-8">
+        <h1 className="text-3xl font-extrabold font-display leading-tight text-gray-900 dark:text-white">
+          Profile{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-amber-500 dark:from-amber-500 dark:to-yellow-400 drop-shadow-[0_2px_15px_rgba(245,158,11,0.15)]">
+            Settings
+          </span>
+        </h1>
+        <p className="text-xs text-gray-500 dark:text-text-muted font-bold tracking-wider uppercase">
+          Customize your credentials & details
+        </p>
+      </div>
+
+      <div className="w-full border border-amber-500/20 p-6 md:p-8 rounded-2xl bg-white/50 dark:bg-[#0d0e12]/60 backdrop-blur-md shadow-[0_15px_40px_rgba(0,0,0,0.02)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.15)]">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            ref={filePickerRef}
+            hidden
+          />
+
+          {/* Profile Picture */}
           <div
-            className={`w-32 h-32 self-center cursor-pointer shadow-[0_0_15px_rgba(255,165,0,0.5)] overflow-hidden rounded-full border-2 border-amber-500 relative`}
+            className="w-32 h-32 self-center cursor-pointer shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_30px_rgba(245,158,11,0.45)] overflow-hidden rounded-full border-2 border-amber-500 relative group transition-all duration-300"
             onClick={() => filePickerRef.current.click()}
           >
-          {imageFileUploadProgress && (
-            <CircularProgressbar
-              value={imageFileUploadProgress || 0}
-              text={`${imageFileUploadProgress}%`}
-              strokeWidth={5}
-              styles={{
-                root: {
-                  width: "100%",
-                  height: "100%",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                },
-                path: {
-                  stroke: `rgba(62, 152, 199, ${
-                    imageFileUploadProgress / 100
-                  })`,
-                },
-              }}
+            {imageFileUploadProgress && (
+              <CircularProgressbar
+                value={imageFileUploadProgress || 0}
+                text={`${imageFileUploadProgress}%`}
+                strokeWidth={5}
+                styles={{
+                  root: {
+                    width: "100%",
+                    height: "100%",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    zIndex: 30,
+                  },
+                  path: {
+                    stroke: `rgba(245, 158, 11, ${
+                      imageFileUploadProgress / 100
+                    })`,
+                  },
+                }}
+              />
+            )}
+            <img
+              src={imageFileUrl || currentUser.profilePicture}
+              alt="user"
+              className={`rounded-full w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 ${
+                imageFileUploadProgress &&
+                imageFileUploadProgress < 100 &&
+                "opacity-60"
+              }`}
             />
+            {/* Edit Photo Overlay */}
+            <div className="absolute inset-0 bg-black/45 flex flex-col items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 select-none text-white z-20">
+              <svg className="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-500">Edit Photo</span>
+            </div>
+          </div>
+
+          {imageFileUploadError && (
+            <Alert color="failure" className="rounded-xl">{imageFileUploadError}</Alert>
           )}
-          <img
-            src={imageFileUrl || currentUser.profilePicture}
-            alt="user"
-            className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
-              imageFileUploadProgress &&
-              imageFileUploadProgress < 100 &&
-              "opacity-60"
-            }`}
-          />
+
+          {/* Username Input */}
+          <div className="flex flex-col">
+            <label className="text-xs font-extrabold uppercase tracking-wider text-gray-500 dark:text-text-muted mb-1.5 select-none" htmlFor="username">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              placeholder="username"
+              defaultValue={currentUser.username}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200/60 dark:border-white/10 bg-white/50 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all duration-200 text-sm"
+            />
+          </div>
+
+          {/* Email Input */}
+          <div className="flex flex-col">
+            <label className="text-xs font-extrabold uppercase tracking-wider text-gray-500 dark:text-text-muted mb-1.5 select-none" htmlFor="email">
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="email"
+              defaultValue={currentUser.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200/60 dark:border-white/10 bg-white/50 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all duration-200 text-sm"
+            />
+          </div>
+
+          {/* Password Input */}
+          <div className="flex flex-col">
+            <label className="text-xs font-extrabold uppercase tracking-wider text-gray-500 dark:text-text-muted mb-1.5 select-none" htmlFor="password">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              placeholder="••••••••"
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200/60 dark:border-white/10 bg-white/50 dark:bg-black/30 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all duration-200 text-sm"
+            />
+          </div>
+
+          {/* Submit Action */}
+          <button
+            type="submit"
+            className="mt-2 btn-amber py-2.5 rounded-xl text-sm w-full font-bold transition-all duration-300 shadow-[0_0_15px_rgba(245,158,11,0.15)] hover:shadow-[0_0_20px_rgba(245,158,11,0.35)]"
+            disabled={loading || imageFileUploading}
+          >
+            {loading ? "Saving settings..." : "Update Profile"}
+          </button>
+
+          {currentUser.isAdmin && (
+            <Link to={"/create-post"} className="w-full">
+              <button
+                type="button"
+                className="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black font-bold text-sm transition-all duration-300 shadow-[0_0_15px_rgba(245,158,11,0.05)] hover:shadow-[0_0_20px_rgba(245,158,11,0.25)]"
+              >
+                Create a post
+              </button>
+            </Link>
+          )}
+        </form>
+
+        {/* Danger zone actions */}
+        <div className="flex justify-between items-center text-xs mt-6 pt-6 border-t border-gray-200/50 dark:border-white/5">
+          <button
+            type="button"
+            onClick={() => setShowModal(true)}
+            className="text-red-500 hover:text-red-600 font-bold transition-colors select-none"
+          >
+            Delete Account
+          </button>
+          <button
+            type="button"
+            onClick={handleSignout}
+            className="text-gray-500 hover:text-amber-500 font-bold transition-colors select-none"
+          >
+            Sign Out
+          </button>
         </div>
-        {imageFileUploadError && (
-          <Alert color="failure">{imageFileUploadError}</Alert>
-        )}
-        <TextInput
-          type="text"
-          id="username"
-          placeholder="username"
-          defaultValue={currentUser.username}
-          onChange={handleChange}
-        />
-        <TextInput
-          type="email"
-          id="email"
-          placeholder="email"
-          defaultValue={currentUser.email}
-          onChange={handleChange}
-        />
-        <TextInput
-          type="password"
-          id="password"
-          placeholder="password"
-          onChange={handleChange}
-        />
-        <button
-          type="submit"
-          className="btn-amber py-2 rounded-lg text-sm w-full font-bold"
-          disabled={loading || imageFileUploading}
-        >
-          {loading ? "Loading..." : "Update"}
-        </button>
-        {currentUser.isAdmin && (
-          <Link to={"/create-post"}>
-            <button
-              type="button"
-              className="btn-outline-amber py-2 rounded-lg text-sm w-full font-bold mt-4"
-            >
-              Create a post
-            </button>
-          </Link>
-        )}
-      </form>
-      <div className="text-red-500 flex justify-between mt-5 font-medium">
-        <span onClick={() => setShowModal(true)} className="cursor-pointer">
-          Delete Account
-        </span>
-        <span onClick={handleSignout} className="cursor-pointer">
-          Sign Out
-        </span>
       </div>
+
       {updateUserSuccess && (
-        <Alert color="success" className="mt-5">
+        <Alert color="success" className="rounded-xl mt-5">
           {updateUserSuccess}
         </Alert>
       )}
       {updateUserError && (
-        <Alert color="failure" className="mt-5">
+        <Alert color="failure" className="rounded-xl mt-5">
           {updateUserError}
         </Alert>
       )}
       {error && (
-        <Alert color="failure" className="mt-5">
+        <Alert color="failure" className="rounded-xl mt-5">
           {error}
         </Alert>
       )}
+
+      {/* Account Deletion Modal */}
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
@@ -273,17 +340,23 @@ export default function DashProfile() {
         size="md"
       >
         <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
-            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete your account?
+        <Modal.Body className="bg-white dark:bg-background rounded-b-2xl border-none">
+          <div className="text-center p-4">
+            <HiOutlineExclamationCircle className="h-14 w-14 text-amber-500 mb-4 mx-auto" />
+            <h3 className="mb-5 text-base font-medium text-gray-900 dark:text-white leading-relaxed">
+              Are you sure you want to delete your account? This action is permanent and cannot be undone.
             </h3>
             <div className="flex justify-center gap-4">
-              <button color="failure" onClick={handleDeleteUser} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors">
-                Yes, I&apos;m sure
+              <button
+                onClick={handleDeleteUser}
+                className="bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 shadow-[0_4px_12px_rgba(239,68,68,0.15)]"
+              >
+                Yes, delete
               </button>
-              <button color="gray" onClick={() => setShowModal(false)} className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors">
+              <button
+                onClick={() => setShowModal(false)}
+                className="bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300"
+              >
                 No, cancel
               </button>
             </div>
