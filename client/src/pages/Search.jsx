@@ -111,7 +111,7 @@ export default function Search() {
       <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-amber-500/5 dark:bg-amber-500/10 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse"></div>
 
       {/* Sidebar container */}
-      <div className="p-8 md:border-r border-gray-200/50 dark:border-white/5 bg-transparent md:w-3/12 z-10 relative">
+      <div className="p-8 md:border-r border-gray-200/50 dark:border-white/5 bg-gray-50/30 dark:bg-[#090a0d]/40 md:w-3/12 z-10 relative">
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           
           {/* Search Term */}
@@ -175,7 +175,7 @@ export default function Search() {
       </div>
 
       {/* Main content container */}
-      <div className="w-full p-8 md:p-12 z-10 relative">
+      <div className="flex-1 p-8 md:p-12 z-10 relative">
         {/* Results Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full border-b border-gray-200/50 dark:border-white/5 pb-4 mb-8">
           <div>
@@ -192,7 +192,7 @@ export default function Search() {
         </div>
 
         {/* Posts Grid */}
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-6 gap-y-10 justify-items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {!loading && posts.length === 0 && (
             <p className="text-lg text-gray-500 font-semibold col-span-full py-12">No posts found matching your criteria.</p>
           )}

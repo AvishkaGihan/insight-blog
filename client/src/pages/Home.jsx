@@ -185,7 +185,7 @@ export default function Home() {
             </div>
 
             {/* Container for post cards */}
-            <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-y-8 justify-items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {posts.map((post) => (
                 <PostCard key={post._id} post={post} />
               ))}

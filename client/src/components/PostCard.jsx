@@ -8,7 +8,7 @@ export default function PostCard({ post }) {
     : 3;
 
   return (
-    <div className="group relative w-full max-w-[360px] h-[400px] flex flex-col overflow-hidden rounded-2xl border border-gray-200/50 dark:border-white/10 hover:border-amber-500/50 hover:shadow-[0_12px_40px_rgba(245,158,11,0.08)] bg-white dark:bg-[#0d0e12]/80 transition-all hover:scale-[1.02] duration-300">
+    <div className="group relative w-full max-w-md h-[400px] flex flex-col overflow-hidden rounded-2xl border border-gray-200/50 dark:border-white/10 hover:border-amber-500/50 hover:shadow-[0_12px_40px_rgba(245,158,11,0.08)] bg-white dark:bg-[#0d0e12]/80 transition-all hover:scale-[1.02] duration-300">
       
       {/* Cover Image Link */}
       <Link to={`/post/${post.slug}`} className="block relative h-[210px] w-full overflow-hidden rounded-t-2xl z-20">
