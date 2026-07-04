@@ -161,8 +161,8 @@ export default function Home() {
       </div>
 
       {/* Call to Action section */}
-      <div className="bg-gradient-cyber border-y border-gray-800 relative z-10">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-30"></div>
+      <div className="bg-gray-50/50 dark:bg-gradient-cyber border-y border-gray-200 dark:border-gray-800 relative z-10 transition-colors duration-300">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-10 dark:opacity-30"></div>
         <div className="container mx-auto md:px-16 sm:px-4 p-2 py-16 relative z-10">
           <CallToAction />
         </div>
