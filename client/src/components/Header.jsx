@@ -1,4 +1,4 @@
-import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
+import { Dropdown } from "flowbite-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
@@ -17,6 +17,7 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -51,84 +52,187 @@ export default function Header() {
   };
 
   return (
-    <Navbar className="md:!px-16 sm:!px-2 py-4 border-b border-gray-800 dark:border-amber-500/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_0_15px_rgba(255,165,0,0.1)] bg-white/70 dark:bg-background/80 backdrop-blur-md w-[100%] sticky top-0 z-50">
-      <Link
-        to="/"
-        className="self-center whitespace-nowrap text-sm sm:text-xl font-bold font-display dark:text-white"
-      >
-        <img
-          className={`h-10 ${theme === "dark" ? "visible" : "hidden"}`}
-          src={logoDark}
-          alt="logo"
-        />
-        <img
-          className={`h-10 ${theme === "light" ? "visible" : "hidden"}`}
-          src={logoLight}
-          alt="logo"
-        />
-      </Link>
-      <form onSubmit={handleSubmit}>
-        <TextInput
-          type="text"
-          placeholder="Search..."
-          rightIcon={AiOutlineSearch}
-          className="hidden lg:inline"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          color="gray"
-        />
-      </form>
-      <Button className="w-12 h-10 lg:hidden" color="gray" pill>
-        <AiOutlineSearch />
-      </Button>
-      <div className="flex gap-2 md:order-2">
-        <Button
-          className="w-12 h-10 hidden sm:inline"
-          color="gray"
-          pill
-          outline
-          onClick={() => dispatch(toggleTheme())}
-        >
-          {theme === "light" ? <FaSun className="text-amber-500" /> : <FaMoon className="text-steel-500" />}
-        </Button>
-        {currentUser ? (
-          <Dropdown
-            arrowIcon={false}
-            inline
-            label={
-              <Avatar alt="user" img={currentUser.profilePicture} rounded />
-            }
-          >
-            <Dropdown.Header>
-              <span className="block text-sm">@{currentUser.username}</span>
-              <span className="block text-sm font-medium truncate">
-                {currentUser.email}
-              </span>
-            </Dropdown.Header>
-            <Link to={"/dashboard?tab=profile"}>
-              <Dropdown.Item>Profile</Dropdown.Item>
-            </Link>
-            <Dropdown.Divider />
-            <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
-          </Dropdown>
-        ) : (
-          <Link to="/sign-in">
-            <button className="btn-amber px-4 py-2 rounded-lg">Sign In</button>
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200/40 dark:border-gray-800/80 bg-white/80 dark:bg-[#0a0a0c]/80 backdrop-blur-md transition-all duration-300">
+      {/* Top signature golden accent gradient bar */}
+      <div className="h-[2px] w-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        
+        {/* BRAND / LOGO (Left) */}
+        <div className="flex items-center">
+          <Link to="/" className="flex items-center gap-2 font-display text-xl font-bold tracking-wide">
+            <img className="h-8 w-auto dark:hidden" src={logoLight} alt="Insight Logo" />
+            <img className="h-8 w-auto hidden dark:block" src={logoDark} alt="Insight Logo" />
           </Link>
-        )}
-        <Navbar.Toggle />
+        </div>
+
+        {/* NAVIGATION LINKS (Center - Desktop only) */}
+        <nav className="hidden md:flex items-center gap-1">
+          <Link
+            to="/"
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+              path === "/"
+                ? "text-amber-500 bg-amber-500/10 border border-amber-500/20"
+                : "text-gray-600 dark:text-gray-300 hover:text-amber-500 hover:bg-gray-100 dark:hover:bg-white/5"
+            }`}
+          >
+            Home
+          </Link>
+          <Link
+            to="/about"
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+              path === "/about"
+                ? "text-amber-500 bg-amber-500/10 border border-amber-500/20"
+                : "text-gray-600 dark:text-gray-300 hover:text-amber-500 hover:bg-gray-100 dark:hover:bg-white/5"
+            }`}
+          >
+            About
+          </Link>
+          <Link
+            to="/projects"
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+              path === "/projects"
+                ? "text-amber-500 bg-amber-500/10 border border-amber-500/20"
+                : "text-gray-600 dark:text-gray-300 hover:text-amber-500 hover:bg-gray-100 dark:hover:bg-white/5"
+            }`}
+          >
+            Projects
+          </Link>
+        </nav>
+
+        {/* ACTIONS (Right) */}
+        <div className="flex items-center gap-3">
+          
+          {/* SEARCH INPUT (Desktop Only) */}
+          <form onSubmit={handleSubmit} className="hidden lg:block relative">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-40 lg:w-48 focus:w-60 h-9 pl-9 pr-3 rounded-full text-xs bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-all duration-300 ease-in-out"
+            />
+            <AiOutlineSearch className="absolute left-3 top-2.5 text-gray-400 text-sm" />
+          </form>
+
+          {/* SEARCH ICON (Mobile/Tablet Only - navigates directly to search page) */}
+          <button
+            onClick={() => navigate('/search')}
+            className="lg:hidden p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-amber-500 dark:hover:text-amber-400 transition-all"
+            title="Search"
+          >
+            <AiOutlineSearch className="text-xl" />
+          </button>
+
+          {/* THEME TOGGLE */}
+          <button
+            onClick={() => dispatch(toggleTheme())}
+            className="p-2 rounded-full bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/10 hover:text-amber-500 dark:hover:text-amber-400 hover:scale-105 active:scale-95 transition-all duration-300"
+            title="Toggle theme"
+          >
+            {theme === "light" ? (
+              <FaSun className="text-amber-500 animate-pulse" />
+            ) : (
+              <FaMoon className="text-amber-400" />
+            )}
+          </button>
+
+          {/* USER ACTIONS / SIGN IN */}
+          {currentUser ? (
+            <Dropdown
+              arrowIcon={false}
+              inline
+              label={
+                <div className="relative group p-0.5 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-400 hover:shadow-[0_0_12px_rgba(245,158,11,0.4)] transition-all duration-300">
+                  <img
+                    alt="user"
+                    src={currentUser.profilePicture}
+                    className="h-8 w-8 rounded-full object-cover border border-white dark:border-[#0a0a0c]"
+                  />
+                </div>
+              }
+            >
+              <Dropdown.Header>
+                <span className="block text-sm font-semibold text-gray-900 dark:text-white">
+                  @{currentUser.username}
+                </span>
+                <span className="block text-xs text-gray-500 dark:text-gray-400 truncate">
+                  {currentUser.email}
+                </span>
+              </Dropdown.Header>
+              <Link to="/dashboard?tab=profile">
+                <Dropdown.Item>Profile</Dropdown.Item>
+              </Link>
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
+            </Dropdown>
+          ) : (
+            <Link to="/sign-in">
+              <button className="btn-amber px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
+                Sign In
+              </button>
+            </Link>
+          )}
+
+          {/* HAMBURGER TOGGLE (Mobile Only) */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-all"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+
+        </div>
       </div>
-      <Navbar.Collapse>
-        <Navbar.Link active={path === "/"} as={"div"}>
-          <Link to="/" className={`font-medium ${path === "/" ? "text-amber-500 dark:text-amber-500" : "hover:text-amber-500 dark:hover:text-amber-500 transition-colors"}`}>Home</Link>
-        </Navbar.Link>
-        <Navbar.Link active={path === "/about"} as={"div"}>
-          <Link to="/about" className={`font-medium ${path === "/about" ? "text-amber-500 dark:text-amber-500" : "hover:text-amber-500 dark:hover:text-amber-500 transition-colors"}`}>About</Link>
-        </Navbar.Link>
-        <Navbar.Link active={path === "/projects"} as={"div"}>
-          <Link to="/projects" className={`font-medium ${path === "/projects" ? "text-amber-500 dark:text-amber-500" : "hover:text-amber-500 dark:hover:text-amber-500 transition-colors"}`}>Projects</Link>
-        </Navbar.Link>
-      </Navbar.Collapse>
-    </Navbar>
+
+      {/* MOBILE MENU DROPDOWN */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-16 left-0 w-full bg-white/95 dark:bg-[#0a0a0c]/95 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800/80 px-4 py-4 flex flex-col gap-3 shadow-xl transition-all duration-300 animate-slide-up z-40">
+          <Link
+            to="/"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+              path === "/"
+                ? "text-amber-500 bg-amber-500/10 border border-amber-500/20"
+                : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5"
+            }`}
+          >
+            Home
+          </Link>
+          <Link
+            to="/about"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+              path === "/about"
+                ? "text-amber-500 bg-amber-500/10 border border-amber-500/20"
+                : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5"
+            }`}
+          >
+            About
+          </Link>
+          <Link
+            to="/projects"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+              path === "/projects"
+                ? "text-amber-500 bg-amber-500/10 border border-amber-500/20"
+                : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5"
+            }`}
+          >
+            Projects
+          </Link>
+        </div>
+      )}
+    </header>
   );
 }
+
