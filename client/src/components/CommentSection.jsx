@@ -1,4 +1,4 @@
-import { Alert, Button, Modal, Textarea } from "flowbite-react";
+import { Alert, Modal } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,6 +14,7 @@ export default function CommentSection({ postId }) {
   const [showModal, setShowModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null);
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (comment.length > 200) {
@@ -111,105 +112,128 @@ export default function CommentSection({ postId }) {
       console.log(error.message);
     }
   };
+
   return (
-    <div className="max-w-2xl mx-auto w-full p-3">
+    <div className="max-w-3xl mx-auto w-full p-4 relative z-10">
+      
+      {/* Session Info Bar */}
       {currentUser ? (
-        <div className="flex items-center gap-1 my-5 text-gray-500 text-sm">
-          <p>Signed in as:</p>
-          <img
-            className="h-5 w-5 object-cover rounded-full"
-            src={currentUser.profilePicture}
-            alt=""
-          />
-          <Link
-            to={"/dashboard?tab=profile"}
-            className="text-xs text-steel-500 hover:underline"
-          >
-            @{currentUser.username}
-          </Link>
+        <div className="flex items-center gap-2 my-5 text-gray-500 dark:text-text-muted text-xs font-bold uppercase tracking-wider select-none">
+          <span>Signed in as:</span>
+          <div className="flex items-center gap-1.5 bg-gray-100 dark:bg-white/5 border border-gray-200/50 dark:border-white/5 py-1 px-3 rounded-full">
+            <img
+              className="h-4 w-4 object-cover rounded-full bg-gray-200"
+              src={currentUser.profilePicture}
+              alt=""
+            />
+            <Link
+              to={"/dashboard?tab=profile"}
+              className="text-[10px] text-amber-600 dark:text-amber-400 hover:underline lowercase font-bold"
+            >
+              @{currentUser.username}
+            </Link>
+          </div>
         </div>
       ) : (
-        <div className="text-sm text-teal-500 my-5 flex gap-1">
-          You must be signed in to comment.
-          <Link className="text-blue-500 hover:underline" to={"/sign-in"}>
+        <div className="text-xs text-purple-600 dark:text-purple-400 border border-purple-500/20 bg-purple-500/[0.02] p-4 rounded-xl my-6 flex items-center gap-1.5 font-bold uppercase tracking-wider justify-center select-none">
+          <span>You must be signed in to comment.</span>
+          <Link className="text-amber-500 hover:underline ml-1" to={"/sign-in"}>
             Sign In
           </Link>
         </div>
       )}
+
+      {/* Comment Input Box */}
       {currentUser && (
-          <form
-            onSubmit={handleSubmit}
-            className="border border-amber-500/50 rounded-md p-3 glassmorphism"
-          >
-          <Textarea
+        <form
+          onSubmit={handleSubmit}
+          className="border border-amber-500/20 hover:border-amber-500/30 transition-colors duration-300 rounded-2xl p-5 bg-white/40 dark:bg-[#0d0e12]/60 backdrop-blur-md shadow-sm"
+        >
+          <textarea
             placeholder="Add a comment..."
             rows="3"
             maxLength="200"
             onChange={(e) => setComment(e.target.value)}
             value={comment}
+            className="w-full bg-white/40 dark:bg-[#121318]/50 border border-gray-200/80 dark:border-white/5 focus:border-amber-500/30 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-amber-500/10 transition-all duration-300 shadow-sm resize-none"
           />
-            <div className="flex justify-between items-center mt-5">
-              <p className="text-gray-500 text-xs">
-                {200 - comment.length} characters remaining
-              </p>
-              <button type="submit" className="btn-amber px-4 py-1.5 rounded-lg text-sm">
-                Submit
-              </button>
-            </div>
+          <div className="flex justify-between items-center mt-4">
+            <p className="text-gray-400 dark:text-text-muted text-xs font-semibold">
+              {200 - comment.length} characters remaining
+            </p>
+            <button
+              type="submit"
+              className="btn-amber px-5 py-2 text-xs font-extrabold uppercase tracking-wider rounded-xl transition-all duration-300"
+            >
+              Submit
+            </button>
+          </div>
           {commentError && (
-            <Alert color="failure" className="mt-5">
+            <Alert color="failure" className="mt-5 bg-red-500/10 text-red-500 border border-red-500/20 rounded-xl text-xs font-semibold">
               {commentError}
             </Alert>
           )}
         </form>
       )}
+
+      {/* Comments List Header */}
       {comments.length === 0 ? (
-        <p className="text-sm my-5">No comments yet!</p>
+        <p className="text-sm text-gray-400 dark:text-text-muted my-8 font-semibold text-center py-6 border border-dashed border-gray-200 dark:border-white/5 rounded-2xl">
+          No comments yet! Be the first to share your thoughts.
+        </p>
       ) : (
         <>
-          <div className="text-sm my-5 flex items-center gap-1">
-            <p>Comments</p>
-            <div className="border border-gray-400 py-1 px-2 rounded-sm">
-              <p>{comments.length}</p>
-            </div>
+          <div className="text-sm my-6 flex items-center gap-2 font-bold tracking-tight text-gray-900 dark:text-white">
+            <span className="text-xs uppercase tracking-wider text-gray-500 dark:text-text-muted">Comments</span>
+            <span className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded-full text-xs font-extrabold shadow-sm">
+              {comments.length}
+            </span>
           </div>
-          {comments.map((comment) => (
-            <Comment
-              key={comment._id}
-              comment={comment}
-              onLike={handleLike}
-              onEdit={handleEdit}
-              onDelete={(commentId) => {
-                setShowModal(true);
-                setCommentToDelete(commentId);
-              }}
-            />
-          ))}
+
+          <div className="flex flex-col gap-4">
+            {comments.map((comment) => (
+              <Comment
+                key={comment._id}
+                comment={comment}
+                onLike={handleLike}
+                onEdit={handleEdit}
+                onDelete={(commentId) => {
+                  setShowModal(true);
+                  setCommentToDelete(commentId);
+                }}
+              />
+            ))}
+          </div>
         </>
       )}
+
+      {/* Delete Comment Modal Overrides */}
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
         popup
         size="md"
       >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
-            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
+        <Modal.Header className="dark:bg-[#0d0e12] border-b-0" />
+        <Modal.Body className="dark:bg-[#0d0e12]">
+          <div className="text-center p-4">
+            <HiOutlineExclamationCircle className="h-14 w-14 text-amber-500 mb-4 mx-auto" />
+            <h3 className="mb-6 text-sm font-semibold text-gray-500 dark:text-text-muted uppercase tracking-wider">
               Are you sure you want to delete this comment?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button
-                color="failure"
+              <button
                 onClick={() => handleDelete(commentToDelete)}
+                className="px-5 py-2.5 text-xs font-extrabold uppercase tracking-wider rounded-xl bg-red-600 hover:bg-red-500 text-white transition-colors duration-300 shadow-md"
               >
-                Yes, I&apos;m sure
-              </Button>
-              <Button color="gray" onClick={() => setShowModal(false)}>
-                No, cancel
-              </Button>
+                Yes, delete
+              </button>
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-5 py-2.5 text-xs font-extrabold uppercase tracking-wider rounded-xl border border-gray-200 dark:border-white/10 text-gray-500 dark:text-text-muted hover:bg-gray-100 dark:hover:bg-white/5 transition-colors duration-300"
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </Modal.Body>
