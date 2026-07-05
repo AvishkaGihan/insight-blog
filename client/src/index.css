@@ -92,3 +92,30 @@ h1, h2, h3, h4, h5, h6 {
 .dark .dark\:border-gray-700 {
   @apply border-gray-800;
 }
+
+/* ReactQuill Overrides */
+.ql-toolbar.ql-snow,
+.ql-container.ql-snow {
+  border: none !important;
+}
+
+.ql-toolbar.ql-snow {
+  @apply border-b border-gray-200/50 dark:border-white/5 bg-black/5 dark:bg-white/5;
+}
+
+.dark .ql-snow .ql-stroke {
+  stroke: #e5e7eb !important;
+}
+
+.dark .ql-snow .ql-fill,
+.dark .ql-snow .ql-stroke.ql-fill {
+  fill: #e5e7eb !important;
+}
+
+.dark .ql-snow .ql-picker {
+  color: #e5e7eb !important;
+}
+
+.dark .ql-snow .ql-picker-options {
+  @apply bg-[#121318] border-white/10 !important;
+}
